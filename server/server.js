@@ -59,6 +59,8 @@ function initial() {
   User.create({
     id: 1,
     username: "baseuser",
+    firstName: "Base",
+    lastName: "User",
     email: "base@user.com",
     password: "$2a$08$1yPvEgDGAcOXlG3UE8vrVeUoB5r2R7hODO7UwvSQU.49eK3kqDfQS",
   }).then((user) => {
@@ -68,10 +70,12 @@ function initial() {
   User.create({
     id: 2,
     username: "baseadmin",
+    firstName: "Admin",
+    lastName: "User",
     email: "base@admin.com",
     password: "$2a$08$1yPvEgDGAcOXlG3UE8vrVeUoB5r2R7hODO7UwvSQU.49eK3kqDfQS",
   }).then((user) => {
-    user.setRoles([2]);
+    user.setRoles([1]);
   });
 
   Product.create({

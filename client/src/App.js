@@ -5,6 +5,7 @@ import {
   Navigate,
 } from "react-router-dom";
 import Login from "./pages/Login";
+import SignUp from "./pages/SignUp";
 import Cart from "./pages/Cart";
 import NoMatch from "./pages/NoMatch";
 import RootErrorBoundary, { Fallback } from "./pages/RootErrorBoundary";
@@ -27,6 +28,11 @@ function App() {
     {
       path: "login",
       element: <Login />,
+      errorElement: <RootErrorBoundary />,
+    },
+    {
+      path: "sign-up",
+      element: <SignUp />,
       errorElement: <RootErrorBoundary />,
     },
     {

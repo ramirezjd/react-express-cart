@@ -4,12 +4,13 @@ import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
+import { Grid, Link } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { AppContext } from "../App";
 import { Navigate } from "react-router-dom";
-import CircularProgress from '@mui/material/CircularProgress';
+import CircularProgress from "@mui/material/CircularProgress";
 import { baseUrl } from "../config/constants";
 import logo from "../images/logo.png";
 
@@ -21,9 +22,9 @@ const defaultTheme = createTheme({
       dark: "#1c54b2",
       contrastText: "#fff",
     },
-    white:{
+    white: {
       main: "#fff",
-    }
+    },
   },
 });
 
@@ -41,7 +42,6 @@ const Login = () => {
     },
   });
 
-  
   const validateForm = () => {
     let validForm = true;
     const errors = {
@@ -50,17 +50,17 @@ const Login = () => {
     };
     const keys = Object.keys(errors);
     keys.forEach((key, index) => {
-      if(state[key] === "" || state[key].length === 0 ){
+      if (state[key] === "" || state[key].length === 0) {
         errors[key] = "Required Input";
         validForm = false;
       }
     });
     setState((state) => ({
       ...state,
-      errors
+      errors,
     }));
     return validForm;
-  }
+  };
 
   const appContext = useContext(AppContext);
 
@@ -84,14 +84,11 @@ const Login = () => {
       const loginConfig = {
         method: "POST",
         headers: {
-          "Content-type": "application/json; charset=UTF-8"
+          "Content-type": "application/json; charset=UTF-8",
         },
         body: JSON.stringify(payload),
       };
-      const response = await fetch(
-        `${baseUrl}/api/auth/signin`,
-        loginConfig
-      );
+      const response = await fetch(`${baseUrl}/api/auth/signin`, loginConfig);
       const responseData = await response.json();
       if (response.ok) {
         appContext.setAppState({
@@ -146,7 +143,12 @@ const Login = () => {
           }}
         >
           <img src={logo} width="35%" alt="Little Bellies Logo" />
-          <Typography component="h1" variant="h5" data-cy="loginTitle">
+          <Typography
+            component="h1"
+            variant="h5"
+            sx={{ fontWeight: "bold", mt: 2 }}
+            data-cy="loginTitle"
+          >
             Log in
           </Typography>
           <Box component="form" noValidate sx={{ mt: 1 }}>
@@ -161,8 +163,8 @@ const Login = () => {
               label="Username"
               name="username"
               onChange={handleInputChange}
-              error= {state.errors.password!==""}
-              helperText={ state.errors.password}
+              error={state.errors.password !== ""}
+              helperText={state.errors.password}
             />
             <TextField
               size="small"
@@ -176,11 +178,14 @@ const Login = () => {
               type="password"
               id="password"
               onChange={handleInputChange}
-              error= {state.errors.password!==""}
-              helperText={ state.errors.password}
+              error={state.errors.password !== ""}
+              helperText={state.errors.password}
             />
-            {state.error && <Alert 
-              data-cy="errorAlert" severity="error">{state.message}</Alert>}
+            {state.error && (
+              <Alert data-cy="errorAlert" severity="error">
+                {state.message}
+              </Alert>
+            )}
             <Button
               onClick={handleFormSubmit}
               fullWidth
@@ -189,9 +194,18 @@ const Login = () => {
               color="primaryLb"
               sx={{ mt: 3, mb: 2 }}
             >
-              {state.requesting && <CircularProgress color="white" size="1.5rem"/>}
+              {state.requesting && (
+                <CircularProgress color="white" size="1.5rem" />
+              )}
               {!state.requesting && <>Sign In</>}
             </Button>
+            <Grid container justifyContent="flex-end">
+              <Grid item>
+                <Link href="sign-up" variant="body2">
+                  Not a member yet? Sign up
+                </Link>
+              </Grid>
+            </Grid>
           </Box>
         </Box>
       </Container>
