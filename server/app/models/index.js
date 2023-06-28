@@ -24,10 +24,23 @@ const db = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 db.sequelize = sequelize;
+db.sequelize = sequelize;
 
+db.category = require("../models/category.model.js")(sequelize, Sequelize);
 db.user = require("../models/user.model.js")(sequelize, Sequelize);
 db.role = require("../models/role.model.js")(sequelize, Sequelize);
 db.product = require("../models/product.model.js")(sequelize, Sequelize);
+
+db.category.belongsToMany(db.product, {
+  through: "product_category",
+  foreignKey: "categoryId",
+  otherKey: "productId"
+});
+db.product.belongsToMany(db.category, {
+  through: "product_category",
+  foreignKey: "productId",
+  otherKey: "categoryId"
+});
 
 db.role.belongsToMany(db.user, {
   through: "user_roles",

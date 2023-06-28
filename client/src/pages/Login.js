@@ -131,7 +131,7 @@ const Login = () => {
 
   return (
     <ThemeProvider theme={defaultTheme}>
-      {state.redirect && <Navigate to="/cart" replace={true} />}
+      {state.redirect && <Navigate to="/shop" replace={true} />}
       <Container component="main" maxWidth="xs" sx={{ pt: 2 }}>
         <CssBaseline />
         <Box

@@ -21,6 +21,7 @@ const db = require("./app/models");
 const Role = db.role;
 const User = db.user;
 const Product = db.product;
+const Category = db.category;
 
 //db.sequelize.sync();
 // force: true will drop the table if it already exists
@@ -78,17 +79,44 @@ function initial() {
     user.setRoles([1]);
   });
 
+  Category.create({
+    id: 1,
+    name: "uncategorized",
+  });
+  Category.create({
+    id: 2,
+    name: "mouse",
+  });
+  Category.create({
+    id: 3,
+    name: "keyboard",
+  });
+
   Product.create({
     id: 1,
     name: "Sample product",
     price: 123.2,
-    stock: 30
+    stock: 30,
+  }).then((product) => {
+    product.setCategories([1]);
   });
 
   Product.create({
     id: 2,
-    name: "Second product",
-    price: 55.23,
-    stock: 20
+    name: "Sample mouse product",
+    price: 25.2,
+    stock: 100,
+  }).then((product) => {
+    product.setCategories([2]);
   });
+
+  Product.create({
+    id: 3,
+    name: "Sample keyboard product",
+    price: 100.1,
+    stock: 45,
+  }).then((product) => {
+    product.setCategories([3]);
+  });
+
 }

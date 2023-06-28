@@ -9,7 +9,6 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { AppContext } from "../App";
-import { Navigate } from "react-router-dom";
 import CircularProgress from "@mui/material/CircularProgress";
 import { baseUrl } from "../config/constants";
 import logo from "../images/logo.png";

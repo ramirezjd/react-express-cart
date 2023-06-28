@@ -11,6 +11,7 @@ module.exports = function(app) {
   });
 
   app.get("/api/products/", controller.listProducts);
+  app.get("/api/categories/", controller.listCategories);
 
   // app.get(
   //   "/api/test/user",

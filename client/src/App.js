@@ -1,4 +1,4 @@
-import React, { useState, createContext } from "react";
+import React, { useState, useEffect, createContext } from "react";
 import {
   createBrowserRouter,
   RouterProvider,
@@ -7,23 +7,39 @@ import {
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
 import Cart from "./pages/Cart";
+import Categories from "./pages/Categories";
 import NoMatch from "./pages/NoMatch";
+import Layout from "./components/Layout";
 import RootErrorBoundary, { Fallback } from "./pages/RootErrorBoundary";
 
 const initialAppState = {
   loggedIn: false,
-  authItem: {},
+  auth: {
+    id: "",
+    username: "",
+    email: "",
+    roles: "",
+  },
+  cart: [],
   status: "idle",
 };
 
 export const AppContext = createContext(initialAppState);
 function App() {
   const [appState, setAppState] = useState(initialAppState);
+  useEffect(() => {
+    const localCart = JSON.parse(localStorage.getItem("cart"));
+    if (localCart) {
+      setAppState({
+        ...appState,
+        cart: localCart
+      });
+    }
+  }, [appState.loggedIn]);
   let router = createBrowserRouter([
     {
       path: "/",
-      element: <Login />,
-      errorElement: <RootErrorBoundary />,
+      element: <Navigate to="/login" replace={true} />,
     },
     {
       path: "login",
@@ -36,8 +52,25 @@ function App() {
       errorElement: <RootErrorBoundary />,
     },
     {
-      path: "cart",
-      element: <Cart />,
+      path: "shop",
+      element: (appState?.loggedIn ?? false) ? (
+        <Layout>
+          <Cart />
+        </Layout>
+      ) : (
+        <Navigate to="/login" replace={true} />
+      ),
+      errorElement: <RootErrorBoundary />,
+    },
+    {
+      path: "categories",
+      element: (appState?.loggedIn ?? false) ? (
+        <Layout>
+          <Categories />
+        </Layout>
+      ) : (
+        <Navigate to="/login" replace={true} />
+      ),
       errorElement: <RootErrorBoundary />,
     },
     {
@@ -47,7 +80,7 @@ function App() {
     },
   ]);
   return (
-    <AppContext.Provider value={{ appState, setAppState }}>
+    <AppContext.Provider value={{ appState, setAppState, initialAppState }}>
       <RouterProvider router={router} fallbackElement={<Fallback />} />
     </AppContext.Provider>
   );
